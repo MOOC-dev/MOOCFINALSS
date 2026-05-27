@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="fil" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabay Filipino - Grade 8 MOOC</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Banig background pattern */
+        .banig-pattern {
+            background-color: #ffffff;
+            background-image: radial-gradient(#1e3a8a 0.5px, transparent 0.5px), radial-gradient(#ef4444 0.5px, #ffffff 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 0.03;
+        }
+
+        /* Card Transitions */
+        .hover-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -10px rgba(30, 58, 138, 0.15);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        phBlue: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            600: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        phRed: {
+                            50: '#fef2f2',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                        },
+                        phGold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="text-slate-800 antialiased selection:bg-phGold-400/30">
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white transition-opacity duration-500">
+        <div class="relative flex items-center justify-center">
+            <div class="absolute h-16 w-16 animate-ping rounded-full bg-phGold-400 opacity-25"></div>
+            <div class="absolute h-24 w-24 animate-pulse rounded-full border-4 border-dashed border-phBlue-900"></div>
+            <div class="h-12 w-12 rounded-full bg-phRed-500 flex items-center justify-center text-white font-bold">8</div>
+        </div>
+        <h2 class="mt-6 text-xl font-bold text-phBlue-900 tracking-wide">Gabay Filipino 8</h2>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                
+                <!-- Logo -->
+                <a href="#home" class="flex items-center space-x-3 group">
+                    <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-phBlue-900 to-phBlue-800 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+                        <span class="font-bold text-lg text-phGold-400">F8</span>
+                    </div>
+                    <div>
+                        <span class="block text-base font-extrabold text-phBlue-900 tracking-tight leading-none">Gabay Filipino</span>
+                        <span class="text-[10px] font-medium text-slate-400 tracking-widest uppercase">Baitang 8</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-1">
+                    <a href="#home" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-phBlue-900 hover:bg-slate-50 transition-colors">Tahanan</a>
+                    <a href="#modules" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-phBlue-900 hover:bg-slate-50 transition-colors">Mga Modyul</a>
+                    <a href="#demo-video" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-phBlue-900 hover:bg-slate-50 transition-colors">Demo Videos</a>
+                    <a href="#assessments" class="px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-phBlue-900 hover:bg-slate-50 transition-colors">Pagtataya</a>
+                    <a href="https://drive.google.com/drive/folders/1eOmOoZSsdhPXKNlUto9nzNm4lwtiPQTz?usp=drive_link" target="_blank" class="ml-2 px-4 py-2 rounded-lg text-sm font-semibold text-white bg-phBlue-900 hover:bg-phBlue-800 transition-all flex items-center gap-1.5 shadow-sm">
+                        <i data-lucide="folder-open" class="w-4 h-4"></i> Drive Resources
+                    </a>
+                </nav>
+
+                <!-- Mobile Hamburger Button -->
+                <div class="flex md:hidden">
+                    <button id="mobile-menu-button" class="p-2 rounded-lg text-slate-600 hover:text-phBlue-900 hover:bg-slate-100 focus:outline-none" aria-label="Menu">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-slate-100 bg-white shadow-lg">
+            <div class="px-2 pt-2 pb-4 space-y-1">
+                <a href="#home" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-phBlue-900">
+                    <span class="flex items-center gap-3"><i data-lucide="home" class="w-5 h-5 text-phBlue-900"></i> Tahanan</span>
+                </a>
+                <a href="#modules" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-phBlue-900">
+                    <span class="flex items-center gap-3"><i data-lucide="book-open" class="w-5 h-5 text-phBlue-900"></i> Mga Modyul</span>
+                </a>
+                <a href="#demo-video" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-phBlue-900">
+                    <span class="flex items-center gap-3"><i data-lucide="video" class="w-5 h-5 text-phBlue-900"></i> Demo Videos</span>
+                </a>
+                <a href="#assessments" class="mobile-nav-link block px-4 py-3 rounded-xl text-base font-semibold text-slate-700 hover:bg-slate-50 hover:text-phBlue-900">
+                    <span class="flex items-center gap-3"><i data-lucide="award" class="w-5 h-5 text-phBlue-900"></i> Pagtataya</span>
+                </a>
+                <div class="pt-2 px-4 border-t border-slate-100 mt-2">
+                    <a href="https://drive.google.com/drive/folders/1eOmOoZSsdhPXKNlUto9nzNm4lwtiPQTz?usp=drive_link" target="_blank" class="w-full py-3 px-4 rounded-xl text-center text-sm font-bold text-white bg-phBlue-900 flex items-center justify-center gap-2">
+                        <i data-lucide="folder-open" class="w-4 h-4"></i> Drive Resources
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- flag design colors top bar -->
+    <div class="h-1 w-full flex">
+        <div class="h-full w-2/5 bg-phBlue-900"></div>
+        <div class="h-full w-1/5 bg-phGold-400"></div>
+        <div class="h-full w-2/5 bg-phRed-500"></div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main id="home" class="relative overflow-hidden">
+        
+        <div class="absolute inset-0 banig-pattern pointer-events-none"></div>
+
+        <!-- HERO SECTION -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 md:py-16 relative">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Information -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-phBlue-50 border border-phBlue-100 text-xs font-bold text-phBlue-900 uppercase tracking-widest">
+                        Gabay sa Pagkatuto
+                    </span>
+                    <h1 class="text-4xl sm:text-5xl font-extrabold text-phBlue-900 tracking-tight leading-none">
+                        Malikhain at Makabagong <br>
+                        <span class="serif-title italic text-transparent bg-clip-text bg-gradient-to-r from-phBlue-900 via-phRed-500 to-phGold-500">Filipino Baitang 8</span>
+                    </h1>
+                    <p class="text-base text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Isang makabagong MOOC (Massive Open Online Course) portal para sa mag-aaral ng Baitang 8. Galugarin ang kagandahan ng wikang Filipino sa pamamagitan ng interactive na mga modyul, presentasyon, at makabagong pagtataya gamit ang Wayground.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#modules" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-phBlue-900 hover:bg-phBlue-800 text-white font-bold text-sm transition-all text-center flex items-center justify-center gap-2">
+                            Simulan ang Pag-aaral <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#demo-video" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm border border-slate-200 transition-all text-center flex items-center justify-center gap-2">
+                            Manood ng Demo <i data-lucide="play" class="w-4 h-4 text-phRed-500"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Progress Tracker -->
+                <div class="lg:col-span-5">
+                    <div class="relative bg-white border border-slate-200 p-6 sm:p-8 rounded-2xl shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Aking Pag-unlad</span>
+                            <span class="px-2 py-0.5 rounded bg-phGold-400/10 text-phGold-600 font-bold text-xs">
+                                Grade 8 Filipino
+                            </span>
+                        </div>
+
+                        <div class="flex items-center gap-6 pb-6 border-b border-slate-100">
+                            <!-- SVG Progress Ring -->
+                            <div class="relative w-20 h-20 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-full h-full transform -rotate-90">
+                                    <circle cx="40" cy="40" r="34" stroke="#f1f5f9" stroke-width="6" fill="transparent" />
+                                    <circle id="progress-circle" cx="40" cy="40" r="34" stroke="#1e3a8a" stroke-width="6" fill="transparent" stroke-dasharray="213.6" stroke-dashoffset="213.6" class="transition-all duration-1000 ease-out" />
+                                </svg>
+                                <span class="absolute text-base font-extrabold text-phBlue-900" id="progress-percentage-text">0%</span>
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-slate-800 text-sm">Suriin ang Aralin</h4>
+                                <p class="text-xs text-slate-500 mt-1">Kumpletuhin ang mga Lesson Plans, PPT, at Pagtataya upang mapataas ang marka.</p>
+                                <button onclick="resetProgress()" class="mt-2 text-[11px] font-semibold text-phRed-600 hover:underline flex items-center gap-1">
+                                    <i data-lucide="rotate-ccw" class="w-3 h-3"></i> I-reset ang Pag-unlad
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Progress Stats Checklist -->
+                        <div class="space-y-2 pt-4">
+                            <div class="flex items-center justify-between text-xs">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="book-check" class="w-4 h-4 text-emerald-500"></i>
+                                    <span class="text-slate-600">Nabasang Lesson Plans:</span>
+                                </div>
+                                <span id="lp-progress-stat" class="font-bold text-slate-800">0/3</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="presentation" class="w-4 h-4 text-phBlue-900"></i>
+                                    <span class="text-slate-600">Nabuksang PPT Slides:</span>
+                                </div>
+                                <span id="ppt-progress-stat" class="font-bold text-slate-800">0/3</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="puzzle" class="w-4 h-4 text-purple-500"></i>
+                                    <span class="text-slate-600">Natapos na Wayground Quiz:</span>
+                                </div>
+                                <span id="wayground-progress-stat" class="font-bold text-slate-800">0/3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- PORTAL CARDS -->
+        <section class="bg-slate-50 border-y border-slate-100 py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <a href="#modules" class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col items-center text-center hover-card group">
+                        <div class="p-3 rounded-lg bg-phBlue-50 text-phBlue-900 mb-2">
+                            <i data-lucide="book" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800">Mga Modyul</span>
+                    </a>
+                    
+                    <a href="#modules" class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col items-center text-center hover-card group">
+                        <div class="p-3 rounded-lg bg-phRed-50 text-phRed-500 mb-2">
+                            <i data-lucide="presentation" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800">PowerPoint</span>
+                    </a>
+
+                    <a href="#modules" class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col items-center text-center hover-card group">
+                        <div class="p-3 rounded-lg bg-phGold-400/10 text-phGold-600 mb-2">
+                            <i data-lucide="file-text" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800">Lesson Plans</span>
+                    </a>
+
+                    <a href="#assessments" class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col items-center text-center hover-card group">
+                        <div class="p-3 rounded-lg bg-purple-50 text-purple-600 mb-2">
+                            <i data-lucide="gamepad-2" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800">Wayground</span>
+                    </a>
+
+                    <a href="#demo-video" class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col items-center text-center hover-card group">
+                        <div class="p-3 rounded-lg bg-emerald-50 text-emerald-600 mb-2">
+                            <i data-lucide="video" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800">Demo Videos</span>
+                    </a>
+
+                    <a href="https://drive.google.com/drive/folders/1eOmOoZSsdhPXKNlUto9nzNm4lwtiPQTz?usp=drive_link" target="_blank" class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col items-center text-center hover-card group col-span-2 sm:col-span-2 md:col-span-1">
+                        <div class="p-3 rounded-lg bg-amber-50 text-amber-600 mb-2">
+                            <i data-lucide="database" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-xs font-bold text-slate-800">G-Drive Resources</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- DEMO VIDEO SECTION -->
+        <section id="demo-video" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 scroll-mt-20">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-xs font-bold text-phRed-500 uppercase tracking-widest bg-phRed-50 px-3 py-1.5 rounded-full">Panonood ng Video</span>
+                <h2 class="text-3xl font-extrabold text-phBlue-900 mt-3">Interactive Demo Video Deck</h2>
+                <p class="text-slate-500 text-sm mt-1">Pumili ng modyul sa ibaba at i-click ang player upang panoorin nang walang error ang Demo Video.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Video Sidebar Selection -->
+                <div class="lg:col-span-4 space-y-3">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block px-1">Pumili ng Video:</span>
+                    
+                    <button onclick="switchVideo(1)" id="btn-video-1" class="w-full p-4 rounded-xl border text-left flex items-center gap-4 transition-all duration-300 bg-white border-phBlue-900 ring-2 ring-phBlue-900/10 shadow-sm">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-white bg-phBlue-900 flex-shrink-0">01</div>
+                        <div class="min-w-0 flex-1">
+                            <h4 class="font-bold text-slate-800 text-sm truncate">Modyul 1 Demo Video</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">Dharizemae Baraca</p>
+                        </div>
+                        <i data-lucide="play-circle" class="w-5 h-5 text-phBlue-900 flex-shrink-0"></i>
+                    </button>
+
+                    <button onclick="switchVideo(2)" id="btn-video-2" class="w-full p-4 rounded-xl border text-left flex items-center gap-4 transition-all duration-300 bg-white border-slate-200 hover:border-slate-300">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-white bg-phRed-500 flex-shrink-0">02</div>
+                        <div class="min-w-0 flex-1">
+                            <h4 class="font-bold text-slate-800 text-sm truncate">Modyul 2 Demo Video</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">Diana Mae Bitancur</p>
+                        </div>
+                        <i data-lucide="play-circle" class="w-5 h-5 text-slate-300 flex-shrink-0"></i>
+                    </button>
+
+                    <button onclick="switchVideo(3)" id="btn-video-3" class="w-full p-4 rounded-xl border text-left flex items-center gap-4 transition-all duration-300 bg-white border-slate-200 hover:border-slate-300">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-white bg-phGold-500 flex-shrink-0">03</div>
+                        <div class="min-w-0 flex-1">
+                            <h4 class="font-bold text-slate-800 text-sm truncate">Modyul 3 Resource Drive</h4>
+                            <p class="text-xs text-slate-400 mt-0.5">D. Baraca & D. Bitancur</p>
+                        </div>
+                        <i data-lucide="folder-open" class="w-5 h-5 text-slate-300 flex-shrink-0"></i>
+                    </button>
+                </div>
+
+                <!-- Video Screen (Pinalitan ng Premium at Working Mock Player Card na nagre-redirect sa click) -->
+                <div class="lg:col-span-8">
+                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm p-2">
+                        
+                        <!-- Ligtas at Working Mock Player Container -->
+                        <div id="video-player-container" onclick="openCurrentVideo()" class="relative aspect-video w-full rounded-xl bg-gradient-to-br from-slate-900 via-phBlue-900 to-slate-950 overflow-hidden shadow-inner cursor-pointer group flex flex-col items-center justify-center text-center p-6 border border-slate-700/30">
+                            <!-- Background pattern decor inside player -->
+                            <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                            
+                            <!-- Large Glowing Golden Play Button -->
+                            <div class="relative z-10 w-20 h-20 rounded-full bg-phGold-400 text-phBlue-900 flex items-center justify-center shadow-lg shadow-phGold-400/20 group-hover:scale-110 group-hover:bg-phGold-500 transition-all duration-300 ring-4 ring-white/10">
+                                <i data-lucide="play" class="w-10 h-10 fill-current ml-1"></i>
+                            </div>
+                            
+                            <!-- Video metadata details inside screen -->
+                            <div class="relative z-10 mt-6 space-y-2">
+                                <h3 id="mock-player-title" class="text-white font-extrabold text-lg sm:text-xl tracking-wide group-hover:text-phGold-400 transition-colors">Modyul 1 Demo Video</h3>
+                                <p id="mock-player-instructor" class="text-slate-300 text-xs sm:text-sm font-medium">Tagapagturo: Dharizemae Baraca</p>
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-[11px] font-semibold backdrop-blur-sm border border-white/10 mt-2">
+                                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-phGold-400"></i> Pindutin ang screen upang mapanood sa Google Drive nang ligtas
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Video Action Controls -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
+                            <a id="open-demo-primary" href="https://drive.google.com/file/d/1yxr9GvCbd8Ge-4tpBAnIfGZBjcTaJpR6/view?usp=drive_link" target="_blank" class="py-2.5 px-4 bg-phBlue-900 hover:bg-phBlue-800 text-white rounded-lg text-center text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                <i data-lucide="external-link" class="w-4 h-4"></i> Buksan ang Demo
+                            </a>
+                            <a id="open-demo-backup" href="https://drive.google.com/drive/folders/1eOmOoZSsdhPXKNlUto9nzNm4lwtiPQTz?usp=drive_link" target="_blank" class="py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-center text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                <i data-lucide="shield" class="w-4 h-4 text-phRed-500"></i> Backup Demo Link
+                            </a>
+                            <button onclick="openCurrentVideo()" class="py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                <i data-lucide="play" class="w-4 h-4"></i> I-play ang Video
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- MODULES SECTION -->
+        <section id="modules" class="bg-white border-t border-slate-100 py-16 scroll-mt-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="mb-12 text-center lg:text-left">
+                    <span class="text-xs font-bold text-phBlue-900 uppercase tracking-widest bg-phBlue-50 px-3 py-1.5 rounded-full">Kurikulum at mga Modyul</span>
+                    <h2 class="text-3xl font-extrabold text-phBlue-900 mt-3">Mga Modyul sa Baitang 8</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- MODYUL 1 CARD -->
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between overflow-hidden hover-card transition-all duration-300 relative">
+                        <div class="h-1.5 w-full bg-phBlue-900"></div>
+                        <div class="p-6 space-y-5">
+                            <div class="flex items-start justify-between">
+                                <span class="text-xs font-extrabold text-phBlue-900 bg-phBlue-50 px-2.5 py-1 rounded-lg">MODYUL 1</span>
+                                <span class="text-xs font-medium text-slate-400">Filipino 8</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-extrabold text-phBlue-900 leading-snug">Antas ng Wika sa Komunikasyon</h3>
+                                <p class="text-xs text-slate-400 mt-1 flex items-center gap-1">
+                                    <i data-lucide="user" class="w-3.5 h-3.5 text-phRed-500"></i> Guro: <strong>Dharizemae Baraca</strong>
+                                </p>
+                            </div>
+                            <div class="space-y-3 pt-2 text-xs border-t border-slate-100">
+                                <div class="space-y-1">
+                                    <span class="font-bold text-slate-700 block text-[11px] uppercase tracking-wider">Layunin (Objective):</span>
+                                    <p class="text-slate-600 leading-relaxed text-[11px]">Naipamamalas ng mga mag-aaral ang pag-unawa sa kahalagahan ng paggamit ng angkop na antas ng wika sa iba’t ibang sitwasyon ng komunikasyon.</p>
+                                </div>
+                                <div class="space-y-1">
+                                    <span class="font-bold text-slate-700 block text-[11px] uppercase tracking-wider">Mga Gawain (Activities):</span>
+                                    <p class="text-slate-500 leading-relaxed text-[11px]">Paggamit ng angkop na pormal at di-pormal na antas ng wika, talakayan, at Wayground quiz.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-6 bg-slate-50 border-t border-slate-100 space-y-2 mt-auto">
+                            <div class="grid grid-cols-2 gap-2">
+                                <a onclick="trackLPMilestone(1)" href="https://drive.google.com/file/d/12_mjUoUYGEshsUH0lge3U_mjNqs9fTNj/view?usp=drive_link" target="_blank" class="py-2 px-3 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-center text-xs font-semibold flex items-center justify-center gap-1.5 transition-all">
+                                    <i data-lucide="file-text" class="w-3.5 h-3.5 text-phBlue-900"></i> Lesson Plan
+                                </a>
+                                <a onclick="trackPPTMilestone(1)" href="https://drive.google.com/drive/folders/1eOmOoZSsdhPXKNlUto9nzNm4lwtiPQTz?usp=drive_link" target="_blank" class="py-2 px-3 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-center text-xs font-semibold flex items-center justify-center gap-1.5 transition-all">
+                                    <i data-lucide="presentation" class="w-3.5 h-3.5 text-phRed-500"></i> PPT Slides
+                                </a>
+                            </div>
+                            <a href="#assessments" class="block w-full py-2.5 px-4 bg-phBlue-900 hover:bg-phBlue-800 text-white text-center text-xs font-bold rounded-lg flex items-center justify-center gap-2 transition-all">
+                                <i data-lucide="award" class="w-4 h-4 text-phGold-400"></i> Simulan ang Pagtataya
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- MODYUL 2 CARD -->
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between overflow-hidden hover-card transition-all duration-300 relative">
+                        <div class="h-1.5 w-full bg-phRed-500"></div>
+                        <div class="p-6 space-y-5">
+                            <div class="flex items-start justify-between">
+                                <span class="text-xs font-extrabold text-phRed-500 bg-phRed-50 px-2.5 py-1 rounded-lg">MODYUL 2</span>
+                                <span class="text-xs font-medium text-slate-400">Filipino 8</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-extrabold text-phBlue-900 leading-snug">Mga Uri ng Tayutay</h3>
+                                <p class="text-xs text-slate-400 mt-1 flex items-center gap-1">
+                                    <i data-lucide="user" class="w-3.5 h-3.5 text-phRed-500"></i> Guro: <strong>Diana Mae Bitancur</strong>
+                                </p>
+                            </div>
+                            <div class="space-y-3 pt-2 text-xs border-t border-slate-100">
+                                <div class="space-y-1">
+                                    <span class="font-bold text-slate-700 block text-[11px] uppercase tracking-wider">Layunin (Objective):</span>
+                                    <p class="text-slate-600 leading-relaxed text-[11px]">Naipamamalas ng mag-aaral ang pag-unawa sa mga uri ng tayutay bilang mahalagang elemento sa pagpapahayag ng damdamin at kaisipan sa panitikan at pang-araw-araw na komunikasyon.</p>
+                                </div>
+                                <div class="space-y-1">
+                                    <span class="font-bold text-slate-700 block text-[11px] uppercase tracking-wider">Mga Gawain (Activities):</span>
+                                    <p class="text-slate-500 leading-relaxed text-[11px]">Pagkilala sa pagtutulad, pagwawangis, pagsasatao, at iba pa sa mga akdang pampanitikan.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-6 bg-slate-50 border-t border-slate-100 space-y-2 mt-auto">
+                            <div class="grid grid-cols-2 gap-2">
+                                <a onclick="trackLPMilestone(2)" href="https://drive.google.com/file/d/1AIb5-jTtA19oelXF-FTS6DYrnHkMLUU_/view?usp=drive_link" target="_blank" class="py-2 px-3 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-center text-xs font-semibold flex items-center justify-center gap-1.5 transition-all">
+                                    <i data-lucide="file-text" class="w-3.5 h-3.5 text-phBlue-900"></i> Lesson Plan
+                                </a>
+                                <a onclick="trackPPTMilestone(2)" href="https://drive.google.com/drive/folders/1eOmOoZSsdhPXKNlUto9nzNm4lwtiPQTz?usp=drive_link" target="_blank" class="py-2 px-3 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-center text-xs font-semibold flex items-center justify-center gap-1.5 transition-all">
+                                    <i data-lucide="presentation" class="w-3.5 h-3.5 text-phRed-500"></i> PPT Slides
+                                </a>
+                            </div>
+                            <a href="#assessments" class="block w-full py-2.5 px-4 bg-phBlue-900 hover:bg-phBlue-800 text-white text-center text-xs font-bold rounded-lg flex items-center justify-center gap-2 transition-all">
+                                <i data-lucide="award" class="w-4 h-4 text-phGold-400"></i> Simulan ang Pagtataya
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- MODYUL 3 CARD -->
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between overflow-hidden hover-card transition-all duration-300 relative">
+                        <div class="h-1.5 w-full bg-phGold-400"></div>
+                        <div class="p-6 space-y-5">
+                            <div class="flex items-start justify-between">
+                                <span class="text-xs font-extrabold text-phGold-600 bg-phGold-400/10 px-2.5 py-1 rounded-lg">MODYUL 3</span>
+                                <span class="text-xs font-medium text-slate-400">Filipino 8</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-extrabold text-phBlue-900 leading-snug">Ang Tula at Elemento Nito</h3>
+                                <p class="text-xs text-slate-400 mt-1 flex items-center gap-1">
+                                    <i data-lucide="users" class="w-3.5 h-3.5 text-phRed-500"></i> Guro: <strong>D. Baraca & D. Bitancur</strong>
+                                </p>
+                            </div>
+                            <div class="space-y-3 pt-2 text-xs border-t border-slate-100">
+                                <div class="space-y-1">
+                                    <span class="font-bold text-slate-700 block text-[11px] uppercase tracking-wider">Layunin (Objective):</span>
+                                    <p class="text-slate-600 leading-relaxed text-[11px]">Naipamamalas ng mga mag-aaral ang pag-unawa sa tula bilang isang anyo ng panitikan at sa mga elemento nito.</p>
+                                </div>
+                                <div class="space-y-1">
+                                    <span class="font-bold text-slate-700 block text-[11px] uppercase tracking-wider">Mga Gawain (Activities):</span>
+                                    <p class="text-slate-500 leading-relaxed text-[11px]">Masusing pagbasa ng mga tula, pagkilala sa sukat, tugma, talinghaga, at kariktan.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-6 bg-slate-50 border-t border-slate-100 space-y-2 mt-auto">
+                            <div class="grid grid-cols-2 gap-2">
+                                <a onclick="trackLPMilestone(3)" href="https://drive.google.com/file/d/1bC6OpcYPW7R0dg9i-pm7_a6r8R42BX16/view?usp=drive_link" target="_blank" class="py-2 px-3 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-center text-xs font-semibold flex items-center justify-center gap-1.5 transition-all">
+                                    <i data-lucide="file-text" class="w-3.5 h-3.5 text-phBlue-900"></i> Lesson Plan
+                                </a>
+                                <a onclick="trackPPTMilestone(3)" href="https://drive.google.com/drive/folders/1eOmOoZSsdhPXKNlUto9nzNm4lwtiPQTz?usp=drive_link" target="_blank" class="py-2 px-3 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-center text-xs font-semibold flex items-center justify-center gap-1.5 transition-all">
+                                    <i data-lucide="presentation" class="w-3.5 h-3.5 text-phRed-500"></i> PPT Slides
+                                </a>
+                            </div>
+                            <a href="#assessments" class="block w-full py-2.5 px-4 bg-phBlue-900 hover:bg-phBlue-800 text-white text-center text-xs font-bold rounded-lg flex items-center justify-center gap-2 transition-all">
+                                <i data-lucide="award" class="w-4 h-4 text-phGold-400"></i> Simulan ang Pagtataya
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- WAYGROUND ASSESSMENTS -->
+        <section id="assessments" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 scroll-mt-20">
+            <div class="bg-gradient-to-br from-phBlue-900 to-phBlue-800 rounded-2xl overflow-hidden shadow-xl text-white relative">
+                
+                <div class="p-8 sm:p-12 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <div class="lg:col-span-6 space-y-6">
+                        <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-phGold-400/20 text-phGold-400 text-xs font-extrabold tracking-widest uppercase">
+                            <i data-lucide="gamepad" class="w-3.5 h-3.5"></i> Wayground Pagtataya
+                        </span>
+                        <h2 class="text-3xl font-extrabold leading-tight">Mabilisang Pagtataya sa Wayground!</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Pindutin ang angkop na link ng modyul sa ibaba upang makasali at makasagot sa aming interactive quiz gamit ang Game Code.
+                        </p>
+                        
+                        <!-- Pagsusulit Tracker -->
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-3">
+                            <span class="text-xs font-bold text-slate-300 tracking-wide uppercase block">I-track ang iyong Pagsusulit</span>
+                            <div class="grid grid-cols-3 gap-3">
+                                <label class="flex flex-col items-center justify-center p-3 rounded-lg bg-white/5 border border-white/10 cursor-pointer hover:bg-white/10 transition-all">
+                                    <input type="checkbox" id="chk-wayground-1" onchange="toggleWayground(1)" class="w-4 h-4 rounded text-phBlue-900 accent-phGold-400 focus:ring-0">
+                                    <span class="text-[10px] font-bold mt-2">Modyul 1</span>
+                                </label>
+                                <label class="flex flex-col items-center justify-center p-3 rounded-lg bg-white/5 border border-white/10 cursor-pointer hover:bg-white/10 transition-all">
+                                    <input type="checkbox" id="chk-wayground-2" onchange="toggleWayground(2)" class="w-4 h-4 rounded text-phBlue-900 accent-phGold-400 focus:ring-0">
+                                    <span class="text-[10px] font-bold mt-2">Modyul 2</span>
+                                </label>
+                                <label class="flex flex-col items-center justify-center p-3 rounded-lg bg-white/5 border border-white/10 cursor-pointer hover:bg-white/10 transition-all">
+                                    <input type="checkbox" id="chk-wayground-3" onchange="toggleWayground(3)" class="w-4 h-4 rounded text-phBlue-900 accent-phGold-400 focus:ring-0">
+                                    <span class="text-[10px] font-bold mt-2">Modyul 3</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wayground Quizzes -->
+                    <div class="lg:col-span-6 space-y-4">
+                        
+                        <!-- Modyul 1 Quiz -->
+                        <div class="bg-white/95 rounded-xl p-4 text-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm transition-all">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="h-2 w-2 rounded-full bg-phBlue-900"></span>
+                                    <h4 class="font-extrabold text-sm text-phBlue-900">Modyul 1 Quiz: Antas ng Wika</h4>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-0.5">Game Code: <span class="font-mono font-bold bg-slate-100 px-1.5 py-0.5 rounded text-phRed-600">51768049</span></p>
+                            </div>
+                            <div class="flex items-center gap-2 w-full sm:w-auto">
+                                <a onclick="markWaygroundClicked(1)" href="https://wayground.com/join?gc=51768049" target="_blank" class="flex-1 sm:flex-none py-2 px-3 bg-phBlue-900 hover:bg-phBlue-800 text-white rounded-lg text-xs font-bold text-center transition-all">
+                                    Sumali sa Quiz
+                                </a>
+                                <a href="https://wayground.com" target="_blank" title="Backup Link" class="py-2 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-lg text-xs font-bold text-center transition-all">
+                                    <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Modyul 2 Quiz -->
+                        <div class="bg-white/95 rounded-xl p-4 text-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm transition-all">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="h-2 w-2 rounded-full bg-phRed-500"></span>
+                                    <h4 class="font-extrabold text-sm text-phBlue-900">Modyul 2 Quiz: Tayutay</h4>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-0.5">Game Code: <span class="font-mono font-bold bg-slate-100 px-1.5 py-0.5 rounded text-phRed-600">32250609</span></p>
+                            </div>
+                            <div class="flex items-center gap-2 w-full sm:w-auto">
+                                <a onclick="markWaygroundClicked(2)" href="https://wayground.com/join?gc=32250609" target="_blank" class="flex-1 sm:flex-none py-2 px-3 bg-phBlue-900 hover:bg-phBlue-800 text-white rounded-lg text-xs font-bold text-center transition-all">
+                                    Sumali sa Quiz
+                                </a>
+                                <a href="https://wayground.com" target="_blank" title="Backup Link" class="py-2 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-lg text-xs font-bold text-center transition-all">
+                                    <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Modyul 3 Quiz -->
+                        <div class="bg-white/95 rounded-xl p-4 text-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm transition-all">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="h-2 w-2 rounded-full bg-phGold-400"></span>
+                                    <h4 class="font-extrabold text-sm text-phBlue-900">Modyul 3 Quiz: Ang Tula at Elemento</h4>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-0.5">Game Code: <span class="font-mono font-bold bg-slate-100 px-1.5 py-0.5 rounded text-phRed-600">50141937</span></p>
+                            </div>
+                            <div class="flex items-center gap-2 w-full sm:w-auto">
+                                <a onclick="markWaygroundClicked(3)" href="https://wayground.com/join?gc=50141937" target="_blank" class="flex-1 sm:flex-none py-2 px-3 bg-phBlue-900 hover:bg-phBlue-800 text-white rounded-lg text-xs font-bold text-center transition-all">
+                                    Sumali sa Quiz
+                                </a>
+                                <a href="https://wayground.com" target="_blank" title="Backup Link" class="py-2 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-lg text-xs font-bold text-center transition-all">
+                                    <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FLOATING TOASTS -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
+        <div id="custom-toast" class="transform translate-y-10 opacity-0 pointer-events-none transition-all duration-300 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-2 text-xs font-semibold">
+            <i data-lucide="check-circle" class="text-emerald-400 w-4 h-4"></i>
+            <span id="toast-message">Mensahe</span>
+        </div>
+
+        <button id="back-to-top" onclick="scrollToTop()" class="p-3 rounded-xl bg-white text-phBlue-900 border border-slate-200 shadow-sm hover:bg-slate-50 focus:outline-none transition-all opacity-0 pointer-events-none">
+            <i data-lucide="arrow-up" class="w-5 h-5"></i>
+        </button>
+    </div>
+
+    <!-- PRE-FOOTER LINE -->
+    <div class="h-1.5 w-full flex">
+        <div class="h-full w-1/3 bg-phBlue-900"></div>
+        <div class="h-full w-1/3 bg-phGold-400"></div>
+        <div class="h-full w-1/3 bg-phRed-500"></div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-slate-800">
+                <div class="md:col-span-4 space-y-4 text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start gap-2">
+                        <div class="h-8 w-8 rounded-lg bg-gradient-to-tr from-phGold-500 to-phRed-500 flex items-center justify-center text-white font-bold">F8</div>
+                        <span class="text-white font-extrabold text-base tracking-wide">Gabay Filipino Baitang 8</span>
+                    </div>
+                    <p class="text-xs leading-relaxed max-w-sm">
+                        Isang rebolusyonaryong digital learning space para sa mag-aaral. Itinataguyod ang malalim na talakayan at pagpapahalaga sa ating sining, panitikan, at kultura.
+                    </p>
+                </div>
+
+                <div class="md:col-span-5 space-y-4">
+                    <h4 class="text-white text-xs font-bold tracking-widest uppercase">Direktoryo ng mga Guro</h4>
+                    <div class="grid grid-cols-2 gap-4 text-xs">
+                        <div class="space-y-1">
+                            <span class="text-slate-500 block">Module 1 Guro:</span>
+                            <span class="text-white font-semibold">Dharizemae Baraca</span>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="text-slate-500 block">Module 2 Guro:</span>
+                            <span class="text-white font-semibold">Diana Mae Bitancur</span>
+                        </div>
+                        <div class="space-y-1 col-span-2 pt-1 border-t border-slate-800/60">
+                            <span class="text-slate-500 block">Module 3 Guro:</span>
+                            <span class="text-white font-semibold">Dharizemae Baraca & Diana Mae Bitancur</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-3 space-y-4 text-center md:text-right">
+                    <h4 class="text-white text-xs font-bold tracking-widest uppercase md:text-right">Kolehiyo o Paaralan</h4>
+                    <p class="text-xs text-slate-400">
+                        Departamento ng Edukasyon <br>
+                        Sanga ng mga Paaralang Pampubliko <br>
+                        <span class="italic text-slate-500">Maynila, Pilipinas</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>&copy; 2026 Gabay Filipino MOOC Portal. Nakareserba ang lahat ng karapatan.</p>
+                <div class="flex items-center gap-4">
+                    <span>Baitang 8 Panitikan</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        const trackingState = {
+            lp: [false, false, false],
+            ppt: [false, false, false],
+            wayground: [false, false, false]
+        };
+
+        // Subaybayan ang kasalukuyang piniling video ID (Default: Modyul 1)
+        let activeVideoId = 1;
+
+        function loadState() {
+            const saved = localStorage.getItem('filipino8_mooc_state_tagalog');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    Object.assign(trackingState, parsed);
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+            updateProgressDOM();
+        }
+
+        function saveState() {
+            localStorage.setItem('filipino8_mooc_state_tagalog', JSON.stringify(trackingState));
+            updateProgressDOM();
+        }
+
+        function updateProgressDOM() {
+            const totalItems = 9;
+            const lpCompleted = trackingState.lp.filter(Boolean).length;
+            const pptCompleted = trackingState.ppt.filter(Boolean).length;
+            const wgCompleted = trackingState.wayground.filter(Boolean).length;
+
+            const completedCount = lpCompleted + pptCompleted + wgCompleted;
+            const percentage = Math.round((completedCount / totalItems) * 100);
+
+            const circle = document.getElementById('progress-circle');
+            if (circle) {
+                const offset = 213.6 - (213.6 * percentage) / 100;
+                circle.style.strokeDashoffset = offset;
+            }
+
+            document.getElementById('progress-percentage-text').textContent = `${percentage}%`;
+            document.getElementById('lp-progress-stat').textContent = `${lpCompleted}/3`;
+            document.getElementById('ppt-progress-stat').textContent = `${pptCompleted}/3`;
+            document.getElementById('wayground-progress-stat').textContent = `${wgCompleted}/3`;
+
+            for (let i = 1; i <= 3; i++) {
+                const chk = document.getElementById(`chk-wayground-${i}`);
+                if (chk) {
+                    chk.checked = trackingState.wayground[i - 1];
+                }
+            }
+        }
+
+        function trackLPMilestone(modNumber) {
+            trackingState.lp[modNumber - 1] = true;
+            saveState();
+            showToast(`Modyul ${modNumber} Lesson Plan ay nabuksan!`);
+        }
+
+        function trackPPTMilestone(modNumber) {
+            trackingState.ppt[modNumber - 1] = true;
+            saveState();
+            showToast(`Modyul ${modNumber} PPT Slides ay nabuksan!`);
+        }
+
+        function markWaygroundClicked(modNumber) {
+            trackingState.wayground[modNumber - 1] = true;
+            saveState();
+            showToast(`Wayground Modyul ${modNumber} Quiz ay binuksan.`);
+        }
+
+        function toggleWayground(modNumber) {
+            const chk = document.getElementById(`chk-wayground-${modNumber}`);
+            trackingState.wayground[modNumber - 1] = chk.checked;
+            saveState();
+            showToast(chk.checked ? `Modyul ${modNumber} Pagtataya ay nakumpleto!` : `Modyul ${modNumber} progreso ay binago.`);
+        }
+
+        function resetProgress() {
+            trackingState.lp = [false, false, false];
+            trackingState.ppt = [false, false, false];
+            trackingState.wayground = [false, false, false];
+            saveState();
+            showToast(`Lahat ng iyong progreso ay na-reset.`);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('custom-toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.textContent = message;
+            toast.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+            }, 3000);
+        }
+
+        const videoData = {
+            1: {
+                title: "Modyul 1 Demo Video",
+                instructor: "Tagapagturo: Dharizemae Baraca",
+                viewUrl: "https://drive.google.com/file/d/1yxr9GvCbd8Ge-4tpBAnIfGZBjcTaJpR6/view?usp=drive_link"
+            },
+            2: {
+                title: "Modyul 2 Demo Video",
+                instructor: "Tagapagturo: Diana Mae Bitancur",
+                viewUrl: "https://drive.google.com/file/d/1sCzXicEKQTrQsqdjr9DxGL3FgZV3zEIW/view?usp=drive_link"
+            },
+            3: {
+                title: "Modyul 3 Resource Drive Preview",
+                instructor: "Tagapagturo: D. Baraca & D. Bitancur",
+                viewUrl: "https://drive.google.com/file/d/1eOmOoZSsdhPXKNlUto9nzNm4lwtiPQTz/view?usp=drive_link"
+            }
+        };
+
+        // function para lumipat ng video card nang walang error
+        function switchVideo(id) {
+            const video = videoData[id];
+            if (!video) return;
+
+            activeVideoId = id;
+
+            // Baguhin ang nilalaman ng Mock Player Card
+            document.getElementById('mock-player-title').textContent = video.title;
+            document.getElementById('mock-player-instructor').textContent = video.instructor;
+            document.getElementById('open-demo-primary').href = video.viewUrl;
+
+            for (let i = 1; i <= 3; i++) {
+                const btn = document.getElementById(`btn-video-${i}`);
+                if (i === id) {
+                    btn.className = "w-full p-4 rounded-xl border text-left flex items-center gap-4 transition-all duration-300 bg-white border-phBlue-900 ring-2 ring-phBlue-900/10 shadow-sm";
+                } else {
+                    btn.className = "w-full p-4 rounded-xl border text-left flex items-center gap-4 transition-all duration-300 bg-white border-slate-200 hover:border-slate-300";
+                }
+            }
+            showToast(`Inihanda ang: ${video.title}`);
+        }
+
+        // Ligtas na pag-redirect sa bagong tab para i-play ang video nang walang error
+        function openCurrentVideo() {
+            const video = videoData[activeVideoId];
+            if (video) {
+                window.open(video.viewUrl, '_blank');
+                showToast(`Binubuksan ang ${video.title} sa Google Drive...`);
+            }
+        }
+
+        function toggleDomFullscreen() {
+            const container = document.getElementById('video-player-container');
+            if (!container) return;
+
+            if (!document.fullscreenElement) {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                    container.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        window.onload = function() {
+            setTimeout(() => {
+                const loader = document.getElementById('loading-screen');
+                if (loader) {
+                    loader.classList.add('opacity-0', 'pointer-events-none');
+                }
+            }, 600);
+
+            lucide.createIcons();
+            loadState();
+
+            const menuBtn = document.getElementById('mobile-menu-button');
+            const menu = document.getElementById('mobile-menu');
+            if (menuBtn && menu) {
+                menuBtn.onclick = function() {
+                    const isHidden = menu.classList.contains('hidden');
+                    if (isHidden) {
+                        menu.classList.remove('hidden');
+                    } else {
+                        menu.classList.add('hidden');
+                    }
+                };
+            }
+
+            const navLinks = document.querySelectorAll('.mobile-nav-link');
+            navLinks.forEach(link => {
+                link.onclick = function() {
+                    if (menu) menu.classList.add('hidden');
+                };
+            });
+
+            window.onscroll = function() {
+                const btn = document.getElementById('back-to-top');
+                if (btn) {
+                    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                        btn.classList.remove('opacity-0', 'pointer-events-none');
+                        btn.classList.add('opacity-100');
+                    } else {
+                        btn.classList.remove('opacity-100');
+                        btn.classList.add('opacity-0', 'pointer-events-none');
+                    }
+                }
+            };
+        };
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
